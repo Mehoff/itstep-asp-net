@@ -1,0 +1,28 @@
+﻿@model IEnumerable<itstep_shop.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Products</h1>
+    
+    <table>
+        <tr>
+            <td>Наименование</td>
+            <td>Категория</td>
+        </tr>
+   @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Category.Name</td>
+        @*<td><a href="~/Home/Buy/@product.Id">Добавить в карзину</a></td>*@
+        </tr>
+    }
+    </table>
+
+
+
+</div>

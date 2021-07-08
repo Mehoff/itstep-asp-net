@@ -1,6 +1,8 @@
+using itstep_shop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,13 +11,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace itstep_shop
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        //private IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            //_env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +30,20 @@ namespace itstep_shop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+            });
+
+            //services
+            //    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //        .AddCookie(cookie =>
+            //        {
+            //            cookie.LoginPath = new PathString("/Account/Login");
+            //            cookie.AccessDeniedPath = new PathString("/Account/Login");
+            //        });
+
+
             services.AddControllersWithViews();
         }
 
@@ -44,6 +65,7 @@ namespace itstep_shop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -51,6 +73,7 @@ namespace itstep_shop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }
