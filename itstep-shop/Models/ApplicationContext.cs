@@ -19,7 +19,7 @@ namespace itstep_shop.Models
 
         public ApplicationContext(DbContextOptions options) : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
