@@ -35,13 +35,13 @@ namespace itstep_shop
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
 
-            //services
-            //    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //        .AddCookie(cookie =>
-            //        {
-            //            cookie.LoginPath = new PathString("/Account/Login");
-            //            cookie.AccessDeniedPath = new PathString("/Account/Login");
-            //        });
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(cookie =>
+                    {
+                        cookie.LoginPath = new PathString("/Accounts/Login");
+                        cookie.AccessDeniedPath = new PathString("/Accounts/Login");
+                    });
 
 
             services.AddControllersWithViews();
