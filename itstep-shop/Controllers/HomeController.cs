@@ -19,13 +19,6 @@ namespace itstep_shop.Controllers
         {
             _logger = logger;
             _context = context;
-
-
-            //_context.Categories.Add(new Category { Name = "Фрукты" });
-            //_context.SaveChanges();
-            //_context.Products.Add(new Product { Name = "Банан", CategoryId = 1 });
-            //_context.SaveChanges();
-            //_context.Categories.Load();
         }
 
         public IActionResult Index()
@@ -36,12 +29,6 @@ namespace itstep_shop.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        public IActionResult Products()
-        {
-            _context.Categories.Load();
-            return View(_context.Products.ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

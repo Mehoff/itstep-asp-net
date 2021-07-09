@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Product>
+
+<div class="grid-wrapper">
+    @foreach(var product in Model)
+    {
+        await Html.RenderPartialAsync("_GetProduct", product);
+    }
+</div> 
