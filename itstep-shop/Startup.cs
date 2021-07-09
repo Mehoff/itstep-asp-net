@@ -40,7 +40,7 @@ namespace itstep_shop
                     .AddCookie(cookie =>
                     {
                         cookie.LoginPath = new PathString("/Accounts/Login");
-                        cookie.AccessDeniedPath = new PathString("/Admin/AccessDenied");
+                        cookie.AccessDeniedPath = new PathString("/Home/AccessDenied");
                         cookie.LogoutPath = new PathString("/Home/Index");
                     });
 

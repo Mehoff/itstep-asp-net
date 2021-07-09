@@ -68,7 +68,6 @@ namespace itstep_shop.Controllers
 
         public IActionResult Register()
         {
-            _logger.LogDebug("MESSAGE !!! REGISTER PAGEEEE");
             return View();
         }
 
@@ -109,15 +108,12 @@ namespace itstep_shop.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            _logger.LogDebug("MESSAGE !!! XDD");
-            
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
         private async Task Authenticate(User user)
         {
-
             await _ctx.Roles.LoadAsync();
 
             var claims = new List<Claim>();

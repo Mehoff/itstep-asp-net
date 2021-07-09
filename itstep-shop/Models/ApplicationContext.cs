@@ -17,6 +17,7 @@ namespace itstep_shop.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
 
+
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             //Database.EnsureDeleted();
