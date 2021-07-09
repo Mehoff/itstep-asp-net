@@ -24,14 +24,9 @@ namespace itstep_shop.Controllers
         {
             return View();
         }
-        //public IActionResult AccessDenied()
-        //{
-        //    return View();
-        //}
-
         public IActionResult AddProduct()
         {
-            // ???
+            // Best practice? :P
             ViewData["Categories"] = _ctx.Categories.ToList();
             return View();
         }
@@ -39,8 +34,24 @@ namespace itstep_shop.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductViewModel model)
         {
-            //await _ctx.Products.AddAsync(product);
-            return RedirectToAction("Index", "Admin");
+            if (ModelState.IsValid)
+            {
+                Product product = new Product
+                {
+                    Name = model.Name,
+                    CategoryId = model.CategoryId,
+                    ImageUri = model.ImageUri
+                };
+
+                await _ctx.Products.AddAsync(product);
+                await _ctx.SaveChangesAsync();
+
+                // Redirect to newly added product page
+                // for now, just redirect to main admin page
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Неверно заполненные данные о продукте");
+            return View();
         }
     }
 

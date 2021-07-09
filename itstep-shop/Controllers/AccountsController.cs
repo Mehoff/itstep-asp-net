@@ -96,7 +96,7 @@ namespace itstep_shop.Controllers
                     user.Role = role;
                 }
 
-                _ctx.Users.Add(user);
+                await _ctx.Users.AddAsync(user);
                 await _ctx.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }
