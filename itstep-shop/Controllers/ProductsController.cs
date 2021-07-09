@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using itstep_shop.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace itstep_shop.Controllers
 {
@@ -22,6 +23,7 @@ namespace itstep_shop.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Products()
         {
             _ctx.Categories.Load();
@@ -40,14 +42,7 @@ namespace itstep_shop.Controllers
 
         public IActionResult GetProduct(Product Product)
         {
-
             return PartialView(Product);
-            //var product = await _ctx.Products.FirstOrDefaultAsync(prod => prod.Id == Id);
-            //if (product != null)
-            //{
-            //    return PartialView(product);
-            //}
-            //else return PartialView("Failed to load product");
         }
 
         public IActionResult GetMessage()

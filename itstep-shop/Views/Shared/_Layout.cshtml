@@ -39,14 +39,17 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="">Добро пожаловать, @Context.User.Identity.Name</a>
                             </li>
+
+                            if (Context.User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Админ панель</a>
+                                </li>
+                            }
+
                             <li>
                                 <form method="post" asp-controller="Accounts" asp-action="Logout">
-
-
                                     <input style="background-color: transparent; border: none" class="nav-link" type="submit" value="Выйти" />
-
-
-
                                 </form>
                             </li>
                         }
