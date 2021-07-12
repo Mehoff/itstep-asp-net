@@ -10,8 +10,8 @@ using itstep_shop.Models;
 namespace itstep_shop.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210709133927_Product_ImageUri")]
-    partial class Product_ImageUri
+    [Migration("20210712134005_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,14 @@ namespace itstep_shop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Carts");
                 });
@@ -97,18 +104,21 @@ namespace itstep_shop.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
+                            ImageUri = "https://clipart-best.com/img/banana/banana-clip-art-18.png",
                             Name = "Банан"
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
+                            ImageUri = "https://purepng.com/public/uploads/large/purepng.com-cucumbercucumbervegetablespicklegreenfoodhealthycucumbers-481522161925n6wbx.png",
                             Name = "Огурец"
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 3,
+                            ImageUri = "https://pngimg.com/uploads/cocacola/cocacola_PNG21.png",
                             Name = "Coca-Cola"
                         });
                 });
@@ -164,8 +174,6 @@ namespace itstep_shop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
@@ -189,6 +197,15 @@ namespace itstep_shop.Migrations
                         });
                 });
 
+            modelBuilder.Entity("itstep_shop.Models.Cart", b =>
+                {
+                    b.HasOne("itstep_shop.Models.User", "User")
+                        .WithOne("Cart")
+                        .HasForeignKey("itstep_shop.Models.Cart", "UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("itstep_shop.Models.Product", b =>
                 {
                     b.HasOne("itstep_shop.Models.Cart", null)
@@ -204,15 +221,9 @@ namespace itstep_shop.Migrations
 
             modelBuilder.Entity("itstep_shop.Models.User", b =>
                 {
-                    b.HasOne("itstep_shop.Models.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId");
-
                     b.HasOne("itstep_shop.Models.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId");
-
-                    b.Navigation("Cart");
 
                     b.Navigation("Role");
                 });
@@ -230,6 +241,11 @@ namespace itstep_shop.Migrations
             modelBuilder.Entity("itstep_shop.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("itstep_shop.Models.User", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

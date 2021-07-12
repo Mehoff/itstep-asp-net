@@ -27,6 +27,7 @@ namespace itstep_shop.Controllers
             _ctx = ctx;
             _logger = logger;
         }
+
         public IActionResult Login()
         {
             return View();
@@ -130,6 +131,14 @@ namespace itstep_shop.Controllers
             ClaimsPrincipal principal = new(identity);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        }
+
+        public async Task<IActionResult> Cart()
+        {
+            // ???
+            //_ctx.Carts.FirstOrDefaultAsync(c => c.User.Name == User.Identity.Name);
+            //_ctx.Users.SingleOrDefaultAsync(u => u.Cart);
+            return View();
         }
     }
 }

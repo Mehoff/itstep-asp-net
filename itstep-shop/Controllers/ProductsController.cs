@@ -25,7 +25,7 @@ namespace itstep_shop.Controllers
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult Products(string searchString, string CategoryId)
         {
             var products = _ctx.Products.ToList();
@@ -65,6 +65,7 @@ namespace itstep_shop.Controllers
             var product = _ctx.Products.FirstOrDefault(p => p.Id == id);
             if (product != null)
             {
+                _ctx.Categories.Load();
                 return View(product);
             }
             else return View("Нет продукта с таким Id");
@@ -73,6 +74,12 @@ namespace itstep_shop.Controllers
         public IActionResult GetMessage()
         {
             return PartialView("Hello World! I am partial view");
+        }
+
+        [Authorize]
+        public IActionResult AddToCart()
+        {
+            return View();
         }
 
         //public IActionResult SelectProductsWithCategory(int Id)

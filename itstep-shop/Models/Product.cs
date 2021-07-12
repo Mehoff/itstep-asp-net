@@ -13,5 +13,9 @@ namespace itstep_shop.Models
         public Category Category { get; set; }
         public string ImageUri { get; set; }
 
+        //? 
+        // public List<Cart> Carts { get; set; } = new List<Cart>();
+
+
     }
 }

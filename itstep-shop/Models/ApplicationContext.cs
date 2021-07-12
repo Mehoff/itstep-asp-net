@@ -20,12 +20,19 @@ namespace itstep_shop.Models
 
         public ApplicationContext(DbContextOptions options) : base(options)
         {
+            Database.Migrate();
             //Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //?
+
+            modelBuilder.Entity<User>()
+                .HasOne(a => a.Cart)
+                .WithOne(a => a.User)
+                .HasForeignKey<Cart>(c => c.UserId);
 
             Role[] roles = new Role[]
             {

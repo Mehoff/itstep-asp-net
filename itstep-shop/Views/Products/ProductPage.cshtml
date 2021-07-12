@@ -1,3 +1,17 @@
 ﻿@model Product
+@*todo: add image placeholder*@
 
+
+<img width="200" src="@Model.ImageUri" />
 <h1>@Model.Name</h1>
+<h3>@Model.Category.Name</h3>
+
+<form>
+    <input type="submit" asp-action="AddToCart" asp-controller="Products" />
+</form>
+
+
+@if (User.IsInRole("admin"))
+{
+    <a asp-controller="Admin" asp-action="EditProduct" asp-route-id="@Model.Id">Редактировать</a>
+}
