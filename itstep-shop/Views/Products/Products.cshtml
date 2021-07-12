@@ -1,5 +1,18 @@
 ﻿@model IEnumerable<Product>
 
+<form asp-action="Products" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Поиск по названию: <input class="input-group-text w-100" type="text" name="SearchString" />
+
+            @Html.DropDownList("CategoryId", "Любая")
+
+            <input type="submit" value="Найти" class="btn btn-primary" />
+            <a class="float-right" asp-action="Products">Показать все</a>
+        </p>
+    </div>
+</form>
+
 <div class="grid-wrapper">
     @foreach(var product in Model)
     {

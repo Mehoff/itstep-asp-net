@@ -21,7 +21,7 @@ namespace itstep_shop.Models
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,9 +48,9 @@ namespace itstep_shop.Models
 
             Product[] products = new Product[]
             {
-                new Product {Id = 1, Name = "Банан", CategoryId = 1},
-                new Product {Id = 2, Name = "Огурец", CategoryId = 2},
-                new Product {Id = 3, Name = "Coca-Cola", CategoryId = 3},
+                new Product {Id = 1, Name = "Банан", CategoryId = 1, ImageUri = "https://clipart-best.com/img/banana/banana-clip-art-18.png"},
+                new Product {Id = 2, Name = "Огурец", CategoryId = 2, ImageUri = "https://purepng.com/public/uploads/large/purepng.com-cucumbercucumbervegetablespicklegreenfoodhealthycucumbers-481522161925n6wbx.png"},
+                new Product {Id = 3, Name = "Coca-Cola", CategoryId = 3, ImageUri = "https://pngimg.com/uploads/cocacola/cocacola_PNG21.png"},
             };
 
             modelBuilder.Entity<Role>().HasData(roles);

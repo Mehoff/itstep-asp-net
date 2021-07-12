@@ -53,6 +53,30 @@ namespace itstep_shop.Controllers
             ModelState.AddModelError("", "Неверно заполненные данные о продукте");
             return View();
         }
+
+        public IActionResult AddCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategory(AddCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Category category = new Category
+                {
+                    Name = model.Name,
+                };
+
+                await _ctx.Categories.AddAsync(category);
+                await _ctx.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Неверно заполненные данные о категории");
+            return View();
+        }
     }
 
 
