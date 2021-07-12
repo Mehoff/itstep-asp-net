@@ -128,6 +128,9 @@ namespace itstep_shop.Controllers
                 ClaimsIdentity.DefaultRoleClaimType
                 );
 
+            // Попробую добавить Id как Claim
+            identity.AddClaim(new Claim("Id", user.Id.ToString()));
+
             ClaimsPrincipal principal = new(identity);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
@@ -135,9 +138,8 @@ namespace itstep_shop.Controllers
 
         public async Task<IActionResult> Cart()
         {
-            // ???
-            //_ctx.Carts.FirstOrDefaultAsync(c => c.User.Name == User.Identity.Name);
-            //_ctx.Users.SingleOrDefaultAsync(u => u.Cart);
+            await _ctx.Users.LoadAsync();
+            var products = _ctx.Carts.FirstOrDefaultAsync(cart => cart.User.Id == int.Parse(User.FindFirst("Id").Value));
             return View();
         }
     }

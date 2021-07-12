@@ -2,6 +2,7 @@
 using itstep_shop.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,43 @@ namespace itstep_shop.Controllers
             ModelState.AddModelError("", "Неверно заполненные данные о категории");
             return View();
         }
+
+        public async Task<IActionResult> EditProduct(int Id)
+        {
+            await _ctx.Categories.LoadAsync();
+            ViewData["Categories"] = await _ctx.Categories.ToListAsync();
+            var product = await _ctx.Products.FirstOrDefaultAsync(product => product.Id == Id);
+
+            return View(product);
+        }
+
+
+        // По хорошему конечно должна быть EditProductViewModel
+        public async Task<IActionResult> SaveEditedProduct(Product editedProduct)
+        {
+            await _ctx.Categories.LoadAsync();
+            await _ctx.Products.LoadAsync();
+
+            Product product = await _ctx.Products.SingleOrDefaultAsync(p => p.Id == editedProduct.Id);
+
+            if(string.IsNullOrEmpty(editedProduct.Name) ||
+                product.CategoryId == null ||
+                string.IsNullOrEmpty(editedProduct.ImageUri))
+            {
+                return RedirectToAction("EditProduct", editedProduct);
+            }
+
+            Category category = _ctx.Categories.SingleOrDefault(c => c.Id == editedProduct.CategoryId);
+
+            product.Name = editedProduct.Name;
+            product.Category = category;
+            product.ImageUri = editedProduct.ImageUri;
+
+            await _ctx.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+
     }
 
 

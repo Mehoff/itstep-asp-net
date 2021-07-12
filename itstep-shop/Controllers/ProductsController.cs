@@ -25,7 +25,6 @@ namespace itstep_shop.Controllers
             return View();
         }
 
-        //[Authorize]
         public IActionResult Products(string searchString, string CategoryId)
         {
             var products = _ctx.Products.ToList();
@@ -77,17 +76,17 @@ namespace itstep_shop.Controllers
         }
 
         [Authorize]
-        public IActionResult AddToCart()
+        public async Task<IActionResult> AddToCart(Product product)
         {
+            await _ctx.Users.LoadAsync();
+            var CurrentUser = await _ctx.Users.FirstOrDefaultAsync(user => user.Id == int.Parse(User.FindFirst("Id").Value));
+
+            _ctx.Carts.Add(new Cart { Product = product, User = CurrentUser });
+            await _ctx.SaveChangesAsync();
+
             return View();
         }
 
-        //public IActionResult SelectProductsWithCategory(int Id)
-        //{
-        //    _ctx.Categories.Load();
-        //    ViewData["Categories"] = _ctx.Categories.ToList();
-        //    return View(_ctx.Products.Where(product => product.Id == Id).ToList());
-        //}
 
     }
 }

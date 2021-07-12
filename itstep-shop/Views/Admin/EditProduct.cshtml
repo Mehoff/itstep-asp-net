@@ -1,0 +1,41 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Редактирование продукта";
+}
+
+<h1>Редактирование продукта</h1>
+
+<form asp-action="SaveEditedProduct">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <input style="display: none" asp-for="Id" value="@Model.Id" />
+
+        <label asp-for="Name" class="control-label">Имя</label>
+        <input asp-for="Name" value="@Model.Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label">Категория</label>
+        <select asp-for="CategoryId">
+            @foreach (var category in (ViewData["Categories"] as List<Category>))
+            {
+                <option
+                    selected="@(category.Id == Model.CategoryId)"
+                    value="@category.Id">
+                    @category.Name
+                </option>   
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUri" class="control-label">Ссылка на картинку</label>
+        <input asp-for="ImageUri" value="@Model.ImageUri" class="form-control" />
+        <span asp-validation-for="ImageUri" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+    </div>
+</form>
