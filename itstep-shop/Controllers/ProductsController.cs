@@ -76,15 +76,33 @@ namespace itstep_shop.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> AddToCart(Product product)
+        public async Task<IActionResult> AddToCart(int Id)
         {
             await _ctx.Users.LoadAsync();
-            var CurrentUser = await _ctx.Users.FirstOrDefaultAsync(user => user.Id == int.Parse(User.FindFirst("Id").Value));
+            await _ctx.Products.LoadAsync();
 
-            _ctx.Carts.Add(new Cart { Product = product, User = CurrentUser });
+            var product = await _ctx.Products.SingleOrDefaultAsync(p => p.Id == Id);
+
+            var currentUser = await _ctx.Users.SingleOrDefaultAsync(user => user.Id == int.Parse(User.FindFirst("Id").Value));
+
+            _ctx.Carts.Add(new Cart { Product = product, User = currentUser });
             await _ctx.SaveChangesAsync();
 
-            return View();
+            return RedirectToAction("Products", "Products");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ClearCart()
+        {
+            await _ctx.Users.LoadAsync();
+
+            var currentUser = await _ctx.Users.SingleOrDefaultAsync(user => user.Id == int.Parse(User.FindFirst("Id").Value));
+            var toRemove = _ctx.Carts.Where((cart) => cart.User.Id == currentUser.Id).ToList();
+            _ctx.Carts.RemoveRange(toRemove);
+
+            await _ctx.SaveChangesAsync();
+
+            return RedirectToAction("Cart", "Accounts");
         }
 
 

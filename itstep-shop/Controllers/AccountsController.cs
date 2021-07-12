@@ -139,8 +139,12 @@ namespace itstep_shop.Controllers
         public async Task<IActionResult> Cart()
         {
             await _ctx.Users.LoadAsync();
-            var products = _ctx.Carts.FirstOrDefaultAsync(cart => cart.User.Id == int.Parse(User.FindFirst("Id").Value));
-            return View();
+            await _ctx.Products.LoadAsync();
+
+            var carts = _ctx.Carts.Where(c => c.User.Id == int.Parse(User.FindFirst("Id").Value)).ToList();
+            //var carts = await _ctx.Carts.Where(cart => cart.User.Id == int.Parse(User.FindFirst("Id").Value)).ToList();
+            
+            return View(carts);
         }
     }
 }

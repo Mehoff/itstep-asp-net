@@ -27,12 +27,25 @@ namespace itstep_shop.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //?
 
-            modelBuilder.Entity<User>()
-                .HasOne(a => a.Cart)
-                .WithOne(a => a.User)
-                .HasForeignKey<Cart>(c => c.UserId);
+            // 
+            //modelBuilder.Entity<User>()
+            //    .HasOne(a => a.Cart)
+            //    .WithOne(a => a.User)
+            //    .HasForeignKey<Cart>(c => c.UserId);
+
+            //modelBuilder.Entity<User>().HasOne(a => a.Cart).WithOne(a => a.User).HasForeignKey<Cart>(c => c.UserId)
+
+
+            //modelBuilder.Entity<User>()
+            //    .HasOne(a => a.Cart)
+            //    .WithOne(a => a.User)
+            //    .HasForeignKey<Cart>(c => c.UserId);
+
+            //modelBuilder.Entity<Cart>()
+            //    .HasOne(a => a.User)
+            //    .WithOne(a => a.Cart)
+            //    .HasForeignKey<User>(c => c.CartId);
 
             Role[] roles = new Role[]
             {

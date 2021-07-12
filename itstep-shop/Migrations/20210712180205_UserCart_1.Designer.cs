@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using itstep_shop.Models;
 
 namespace itstep_shop.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210712180205_UserCart_1")]
+    partial class UserCart_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,17 +28,15 @@ namespace itstep_shop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -153,6 +153,9 @@ namespace itstep_shop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -166,6 +169,10 @@ namespace itstep_shop.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId")
+                        .IsUnique()
+                        .HasFilter("[CartId] IS NOT NULL");
 
                     b.HasIndex("RoleId");
 
@@ -194,19 +201,9 @@ namespace itstep_shop.Migrations
                 {
                     b.HasOne("itstep_shop.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("itstep_shop.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("itstep_shop.Models.Product", b =>
@@ -220,11 +217,22 @@ namespace itstep_shop.Migrations
 
             modelBuilder.Entity("itstep_shop.Models.User", b =>
                 {
+                    b.HasOne("itstep_shop.Models.Cart", "Cart")
+                        .WithOne("User")
+                        .HasForeignKey("itstep_shop.Models.User", "CartId");
+
                     b.HasOne("itstep_shop.Models.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId");
 
+                    b.Navigation("Cart");
+
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("itstep_shop.Models.Cart", b =>
+                {
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("itstep_shop.Models.Category", b =>

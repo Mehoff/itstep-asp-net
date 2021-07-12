@@ -1,1 +1,23 @@
-﻿<h1>I Am shopping cart of @User.Identity.Name</h1>
+﻿@model List<Cart>
+
+
+
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var c in Model)
+        {
+            <li>
+                @c.Product.Name
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Корзина пуста</p>
+}
+<a asp-action="Index" asp-controller="Home">Назад</a>
+
+
