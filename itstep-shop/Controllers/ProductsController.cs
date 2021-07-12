@@ -105,6 +105,19 @@ namespace itstep_shop.Controllers
             return RedirectToAction("Cart", "Accounts");
         }
 
+        [Authorize]
+        public async Task<IActionResult> RemoveFromCart(int Id)
+        {
+            var cart = await _ctx.Carts.FirstOrDefaultAsync(c => c.Id == Id);
+            if(cart != null)
+            {
+                _ctx.Carts.Remove(cart);
+                _ctx.SaveChanges();
+            }
+
+            return RedirectToAction("Cart", "Accounts");
+        }
+
 
     }
 }

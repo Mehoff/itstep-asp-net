@@ -1,18 +1,24 @@
 ﻿@model List<Cart>
 
 
-
-
 @if (Model.Any())
 {
     <ul>
         @foreach (var c in Model)
         {
             <li>
-                @c.Product.Name
+                <div>
+                    <a asp-action="ProductPage" asp-controller="Products" asp-route-id="@c.ProductId">@c.Product.Name</a>
+
+
+                    <a asp-action="RemoveFromCart" asp-controller="Products" asp-route-id="@c.Id">Удалить</a>
+                </div>
+                
             </li>
         }
     </ul>
+
+    <a asp-action="ClearCart" asp-controller="Products">Очистить корзину</a>
 }
 else
 {
