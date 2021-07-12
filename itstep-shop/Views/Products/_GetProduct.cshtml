@@ -1,6 +1,13 @@
 ﻿@model Product
 
-<div class="grid-item">
-    <h1>@Model.Name</h1>
-    <h3>@Model.Category.Name</h3>
-</div>
+<a class="grid-item"
+   asp-controller="Products"
+   asp-action="ProductPage"
+   asp-route-id="@Model.Id">
+    <h1>
+        @Model.Name
+    </h1>
+    <h3>
+        @Model.Category.Name
+    </h3>
+</a>

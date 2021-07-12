@@ -38,18 +38,10 @@ namespace itstep_shop.Controllers
             if (!string.IsNullOrEmpty(CategoryId))
             {
                 int categoryId = int.Parse(CategoryId);
-                if(categoryId != -1)
-                    products = products.Where(product => product.CategoryId == categoryId).ToList();
+                products = products.Where(product => product.CategoryId == categoryId).ToList();
             }
 
-            //var items = new List<BindingProperty>();
-            //items.Add(new BindingProperty { Id = -1, Value = "Все" });
-            //foreach (var category in _ctx.Categories.ToList())
-            //    items.Add(new BindingProperty { Id = category.Id, Value = category.Name });
-            //_ctx.Categories.Load();
-            //ViewData["Categories"] = _ctx.Categories.ToList();
             ViewData["CategoryId"] = new SelectList(_ctx.Categories.ToList(), "Id", "Name");
-
             return View(products);
         }
 
@@ -68,17 +60,27 @@ namespace itstep_shop.Controllers
             return PartialView(Product);
         }
 
+        public IActionResult ProductPage(int id)
+        {
+            var product = _ctx.Products.FirstOrDefault(p => p.Id == id);
+            if (product != null)
+            {
+                return View(product);
+            }
+            else return View("Нет продукта с таким Id");
+        }
+
         public IActionResult GetMessage()
         {
             return PartialView("Hello World! I am partial view");
         }
 
-        public IActionResult SelectProductsWithCategory(int Id)
-        {
-            _ctx.Categories.Load();
-            ViewData["Categories"] = _ctx.Categories.ToList();
-            return View(_ctx.Products.Where(product => product.Id == Id).ToList());
-        }
+        //public IActionResult SelectProductsWithCategory(int Id)
+        //{
+        //    _ctx.Categories.Load();
+        //    ViewData["Categories"] = _ctx.Categories.ToList();
+        //    return View(_ctx.Products.Where(product => product.Id == Id).ToList());
+        //}
 
     }
 }
