@@ -1,13 +1,28 @@
 ﻿@model Product
 
-<a class="grid-item"
-   asp-controller="Products"
-   asp-action="ProductPage"
-   asp-route-id="@Model.Id">
-    <h1>
-        @Model.Name
-    </h1>
-    <h3>
-        @Model.Category.Name
-    </h3>
-</a>
+<div class="grid-item">
+    <a asp-controller="Products"
+       asp-action="ProductPage"
+       asp-route-id="@Model.Id">
+        <h1 class="product-name">
+            @Model.Name
+        </h1>
+    </a>
+    <a class="category-name" asp-route-categoryid="@Model.Id" asp-action="Products" asp-controller="Products">@Model.Category.Name</a>
+</div>
+
+
+<style>
+    .product-name{
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        font-size: 24px;
+    }
+    .category-name {
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        font-size: 14px;
+    }
+</style>

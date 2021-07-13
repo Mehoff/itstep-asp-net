@@ -3,27 +3,46 @@
 
 @if (Model.Any())
 {
-    <ul>
+    <ul class="w-50">
         @foreach (var c in Model)
         {
-            <li>
+            <li class="list-group-item">
                 <div>
-                    <a asp-action="ProductPage" asp-controller="Products" asp-route-id="@c.ProductId">@c.Product.Name</a>
-
-
-                    <a asp-action="RemoveFromCart" asp-controller="Products" asp-route-id="@c.Id">Удалить</a>
+                    <a class="cart-item-name" asp-action="ProductPage" asp-controller="Products" asp-route-id="@c.ProductId"><b>@c.Product.Name</b></a>
+                    <a  class="delete-button" asp-action="RemoveFromCart" asp-controller="Products" asp-route-id="@c.Id">Удалить</a>
                 </div>
                 
             </li>
         }
     </ul>
 
-    <a asp-action="ClearCart" asp-controller="Products">Очистить корзину</a>
+    
 }
 else
 {
     <p>Корзина пуста</p>
 }
-<a asp-action="Index" asp-controller="Home">Назад</a>
+
+<ul class="list-group-flush">
+    <li class="list-group-item">
+        <a asp-action="ClearCart" asp-controller="Products">Очистить корзину</a>
+    </li>
+    <li class="list-group-item">
+        <a asp-action="Index" asp-controller="Home">Назад</a>
+    </li>
+</ul>
+
+
+<style>
+    .cart-item-name{
+        color: black;
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+    .delete-button{
+        float: right;
+    }
+</style>
 
 

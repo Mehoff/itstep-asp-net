@@ -5,17 +5,50 @@
         <p>
             Поиск по названию: <input class="input-group-text w-100" type="text" name="SearchString" />
 
-            @Html.DropDownList("CategoryId", "Любая")
+            <a class="float-right" asp-action="Products">Сбросить фильтры</a>
+            
+            <h5>Категория:</h5>
 
+            @Html.DropDownList("CategoryId", "Любая")
             <input type="submit" value="Найти" class="btn btn-primary" />
-            <a class="float-right" asp-action="Products">Показать все</a>
         </p>
+
+        @{
+            if (ViewData["SearchString"] != null)
+            {
+                <div>
+                    <p>
+                        Поиск по запросу <b>@ViewData["SearchString"].ToString()</b> :
+                    </p>
+                </div>
+            }
+        }
     </div>
 </form>
 
 <div class="grid-wrapper">
-    @foreach(var product in Model)
+
+    @if (Model.Any())
     {
-        await Html.RenderPartialAsync("_GetProduct", product);
+        @foreach (var product in Model)
+        {
+            await Html.RenderPartialAsync("_GetProduct", product);
+        }
+    }
+     else
+    {
+        <p>По вашему запросу ничего не найдено</p>
     }
 </div> 
+
+
+<style>
+    #CategoryId {
+        padding: 8px;
+        border: 1px solid lightgrey;
+        border-radius: 15px;
+    }
+    #CategoryId:focus {
+        outline: none;
+    }
+</style>

@@ -31,6 +31,7 @@ namespace itstep_shop.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
+                ViewData["SearchString"] = searchString;
                 products = products.Where((p) => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
